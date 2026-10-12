@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+voices/
+.vts_token

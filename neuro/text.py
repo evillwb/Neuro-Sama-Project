@@ -6,13 +6,15 @@ _SENTENCE_END = re.compile(r"(?<=[.!?…])[\"')\]]*\s+|\n+")
 _ACTIONS = re.compile(r"\*[^*]*\*|\([^)]*\)|\[[^\]]*\]")
 _NON_SPEECH = re.compile(r"[^\w\s.,!?'\"\-:;…]")
 _SPACES = re.compile(r"\s+")
+_SPACE_BEFORE_PUNCT = re.compile(r"\s+([.,!?…])")
 
 
 def clean_for_speech(text: str) -> str:
     """Remove things a TTS voice shouldn't read: *actions*, emojis, markdown."""
     text = _ACTIONS.sub(" ", text)
     text = _NON_SPEECH.sub(" ", text)
-    return _SPACES.sub(" ", text).strip()
+    text = _SPACES.sub(" ", text).strip()
+    return _SPACE_BEFORE_PUNCT.sub(r"\1", text)
 
 
 class SentenceSplitter:
